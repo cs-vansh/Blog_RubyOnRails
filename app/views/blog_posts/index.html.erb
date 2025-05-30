@@ -1,9 +1,22 @@
 <h1>My Blog</h1>
 
 <% @blog_posts.each do |blog_post| %>
-    <div>
-        <h2><%= link_to blog_post.title, blog_post_path(blog_post.id) %></h2>
-        <%# just show the first 100 characeters in the body  %>
-        <%= blog_post.body.truncate(100) %>
+  <div class="blog-post">
+    <h2>
+      <%= link_to blog_post.title, blog_post_path(blog_post.id) %>
+      <% if user_signed_in? %>
+        <% if blog_post.draft? %>
+          <span class="post-status"> - Draft</span>
+        <% elsif blog_post.scheduled? %>
+          <span class="post-status"> - Scheduled</span>
+        <% else %>
+          <span class="post-status"> - Published</span>
+        <% end %>
+      <% end %>
+    </h2>
+    <%# just show the first 100 characeters in the body  %>
+    <div class="blog-post-body">
+      <%= blog_post.body.truncate(100) %>
     </div>
-<% end%>
+  </div>
+<% end %>

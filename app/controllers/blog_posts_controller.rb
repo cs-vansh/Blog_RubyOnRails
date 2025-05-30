@@ -1,5 +1,4 @@
 class BlogPostsController < ApplicationController
-
   # authenticate_user! is from Devise. basically checks if logged in.
   # if not logged in, then we redirect to login page with a message, you must be signed in to perform this action.
   before_action :authenticate_user!, except: [ :index, :show ]
@@ -10,10 +9,14 @@ class BlogPostsController < ApplicationController
   # before_action :set_blog_post, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @blog_posts = BlogPost.all
+    # @blog_posts = BlogPost.all
+    # either all BlogPost in sorted order or Published BlogPost in sorted order
+    @blog_posts = user_signed_in? ? BlogPost.sorted : BlogPost.published.sorted
   end
 
   def show
+    # @blog_post = BlogPost.find(params[:id])
+    @blog_post = user_signed_in? ? BlogPost.find(params[:id]) : BlogPost.published.find(params[:id])
   end
 
   def new
@@ -49,11 +52,18 @@ class BlogPostsController < ApplicationController
 
   def blog_post_params
     # to avoid any other field/value injection.
-    params.require(:blog_post).permit(:title, :body)
+    params.require(:blog_post).permit(:title, :body, :published_at)
   end
 
   def set_blog_post
-    @blog_post = BlogPost.find(params[:id])
+    # if user_signed_in?
+    #   @blog_post = BlogPost.find(params[:id])
+    # else
+    #   @blog_post = BlogPost.published.find(params[:id])
+    # end
+    # or in a simplified way::
+    @blog_post = user_signed_in? ? BlogPost.find(params[:id]) : BlogPost.published.find(params[:id])
+
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end
