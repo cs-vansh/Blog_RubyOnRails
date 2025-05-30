@@ -1,0 +1,26 @@
+<%# instead of using @blog_post instance variable, we are using blog_post which should be passed by whatever template is using this partial  %>
+<%= form_with model: blog_post, html: { class: "centered-form" } do |form| %>
+  <% if form.object.errors.any? %>
+    <div class="form-errors">
+      <ul>
+        <% form.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :body %>
+    <%= form.text_area :body %>
+  </div>
+
+  <div class="form-button-row">
+    <%= form.button %>
+  </div>
+<% end %>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Blog" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%# file name is application.css %> 
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+  <body>
+
+
+    <div class="button-row">
+      <%= link_to "Home", root_path, class: "btn"  %>
+
+      <% if user_signed_in? %>
+        <%# :registerable was removed from User model (using devise), thus this url is no longer valid %>
+        <%#= link_to "Edit Profile", edit_user_registration_path, class: "btn"  %>
+
+        <%= link_to "New Blog Post", new_blog_post_path, class: "btn"  %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn", style: "background-color: #e53935;"  %>
+      <% else %>
+        <%= link_to "Admin Login", new_user_session_path, class: "btn" %>
+        <%# :registerable was removed from User model (using devise), thus this url is no longer valid %>
+        <%#= link_to "Sign Up", new_user_registration_path, class: "btn"  %>
+      <% end %>
+      
+      <%# Show "Edit" button only on blog_posts#show %>
+      <% if controller_name == "blog_posts" && action_name == "show" && user_signed_in? && defined?(@blog_post) && @blog_post.present? %>
+        <%= link_to "Edit", edit_blog_post_path(@blog_post), class: "btn" %>
+      <% end %>
+    </div>
+
+      <% if notice %>
+        <p class="notice"><%= notice %></p>
+      <% end %>
+
+      <% if alert %>
+        <p class="alert"><%= alert %></p>
+      <% end %>
+
+
+
+
+    <%= yield %>
+  </body>
+</html>

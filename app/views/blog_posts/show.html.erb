@@ -1,0 +1,15 @@
+<%# code moved to application.html.erb %>
+<%# if user_signed_in? %>
+  <%#= link_to "Edit", edit_blog_post_path(@blog_post), class: "btn" %>
+<%# end %>
+
+<h1 class="txt-center">
+    <%= @blog_post.title %>
+</h1>
+
+<p class="txt-center txt-justify">
+    <%#= @blog_post.body %>
+    
+    <%= @blog_post.body %>
+
+</p>
