@@ -16,7 +16,19 @@
     </h2>
     <%# just show the first 100 characeters in the body  %>
     <div class="blog-post-body">
-      <%= blog_post.body.truncate(100) %>
+      <%# blog_post.body.truncate(100) %>
+      <%# converting rich text(ActionText) to plain_text, so that we can apply truncate %>
+      <%= blog_post.content.to_plain_text.truncate(100) %>
     </div>
+  </div>
+<% end %>
+
+
+<%# The == means that this will be evaluated as HTML, the single = sanitizes the HTML. %>
+<%# We are trusting the output of Pagy for pagination, else it could have led to js execution as well. %>
+<%# avoid using == in general %>   
+<% if @pagy.pages > 1 %>
+  <div class="pagination-container">
+    <%== pagy_nav(@pagy) %>
   </div>
 <% end %>

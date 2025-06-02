@@ -1,3 +1,5 @@
+@import "actiontext";
+
 /* Blog layout styles */
 body {
   background-color: #f9f9f9;
@@ -111,7 +113,6 @@ input[type="submit"].btn {
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* changed from center */
   gap: 1.2em; /* add spacing between form elements */
 }
 
@@ -124,8 +125,7 @@ input[type="submit"].btn {
 .centered-form input[type="text"],
 .centered-form input[type="email"],
 .centered-form input[type="password"],
-.centered-form textarea,
-.centered-form select {
+.centered-form textarea{
   width: 100%;
   padding: 0.7em 1em;
   border: 1px solid #d1d5db;
@@ -210,4 +210,119 @@ input[type="submit"].btn {
   padding-left: 2rem;
   margin-right: 2rem;
   padding-right: 2rem;
+}
+
+/* Ensure proper styling for other form elements too */
+div:has(> input[type="text"]),
+div:has(> select) {
+  margin-bottom: 15px;
+}
+
+input[type="text"], 
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.form-button-row {
+  margin-top: 20px;
+}
+
+.form-button-row button {
+  padding: 8px 16px;
+  background-color: #0275d8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-button-row button:hover {
+  background-color: #0269c2;
+}
+
+/* Custom Pagination Styling - Updated selectors to match Pagy's HTML structure */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+/* Target the nav element that Pagy creates */
+.pagy-nav,
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* Target all pagination links */
+.pagy-nav a,
+.pagy-nav .active,
+.pagy-nav .gap {
+  display: inline-flex;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+/* Normal page links */
+.pagy-nav a {
+  color: #0077cc;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+/* Hover state for links */
+.pagy-nav a:hover {
+  background-color: #e8f4ff;
+  border-color: #0077cc;
+  color: #0056b3;
+  text-decoration: none;
+}
+
+/* Active/current page */
+.pagy-nav .active {
+  background-color: #0077cc;
+  color: white;
+  border: 1px solid #0077cc;
+  cursor: default;
+}
+
+/* Prev and Next buttons */
+.pagy-nav .prev,
+.pagy-nav .next {
+  font-weight: bold;
+  padding: 0 0.8rem;
+}
+
+/* Disabled buttons (like prev on first page) */
+.pagy-nav .disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Ellipsis for skipped pages */
+.pagy-nav .gap {
+  color: #666;
+}
+
+/* Ensure other pagination styles don't conflict */
+.pagination .page-item,
+.pagination .page-link {
+  display: none;
 }

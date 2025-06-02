@@ -1,6 +1,8 @@
 class BlogPost < ApplicationRecord
+  has_rich_text :content
+
   validates :title, presence: true
-  validates :body, presence: true
+  validates :content, presence: true
 
   # these scopes will also allow us to filter it using BlogPost.draft, BlogPost.published, BlogPost.scheduled just like BlogPost.all works.
   # using lamda here so that Time.current is always evaluated at the time we are checking and not when the server was started.
@@ -10,7 +12,10 @@ class BlogPost < ApplicationRecord
 
   # Will be first sorted based on published_at and if the value is same, then updated_at will be used
   # Based on published_at, the order will be descending: Scheduled, Published, Draft
-  scope :sorted, -> { order(published_at: :desc, updated_at: :desc) }
+  # scope :sorted, -> { order(published_at: :desc, updated_at: :desc) }
+
+  # Nulls first ensures draft posts (with null published_at) appear at the top
+  scope :sorted, -> { order(Arel.sql("published_at DESC NULLS FIRST, updated_at DESC")) }
 
 
   def draft?

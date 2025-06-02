@@ -12,6 +12,9 @@ class BlogPostsController < ApplicationController
     # @blog_posts = BlogPost.all
     # either all BlogPost in sorted order or Published BlogPost in sorted order
     @blog_posts = user_signed_in? ? BlogPost.sorted : BlogPost.published.sorted
+
+    # paginate the posts
+    @pagy, @blog_posts = pagy(@blog_posts)
   end
 
   def show
@@ -52,7 +55,7 @@ class BlogPostsController < ApplicationController
 
   def blog_post_params
     # to avoid any other field/value injection.
-    params.require(:blog_post).permit(:title, :body, :published_at)
+    params.require(:blog_post).permit(:title, :content, :published_at)
   end
 
   def set_blog_post
