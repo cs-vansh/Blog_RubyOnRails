@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   root "blog_posts#index"
 
   # Define routes for blog posts instead of the following routes.
-  resources :blog_posts
+  resources :blog_posts do
+    # using resource, not resources (as a single cover image is only   possible)
+    resource :cover_image, only: [ :destroy ], module: :blog_posts # create destroy route for cover_image routes for each blog_post
+    # without module, the controller should have been cover_images_controller directly in the folder, but with module, the path should be blog_posts/cover_images_controller.rb
+  end
   # get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post
   # post "/blog_posts", to: "blog_posts#create", as: :blog_posts
 

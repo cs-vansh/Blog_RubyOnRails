@@ -57,7 +57,7 @@ class BlogPostsController < ApplicationController
 
   def blog_post_params
     # to avoid any other field/value injection.
-    params.require(:blog_post).permit(:title, :content, :published_at)
+    params.require(:blog_post).permit(:title, :content, :published_at, :cover_image)
   end
 
   def set_blog_post

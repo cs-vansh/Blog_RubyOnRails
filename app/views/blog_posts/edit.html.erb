@@ -1,6 +1,11 @@
 <div style="display: flex; justify-content: space-between; align-items: center;  ">
     <h1 style="margin: 0;">Edit Blog post</h1>
-    <%= button_to "Delete Blog Post", @blog_post, method: :delete, class: "btn", style: "background-color: #e53935;" %>
+    
+    <% if @blog_post.cover_image.present? %>
+        <%= button_to "Remove Cover Image", blog_post_cover_image_path(@blog_post), method: :delete %>
+    <% end %>
+    
+    <%= button_to "Delete Blog Post", @blog_post, method: :delete, class: "btn btn-danger" %>
 </div>
 
 <%= render partial: "form", locals: {blog_post: @blog_post}%>

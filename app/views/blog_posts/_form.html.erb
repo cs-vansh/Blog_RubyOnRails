@@ -1,4 +1,5 @@
 <%# instead of using @blog_post instance variable, we are using blog_post which should be passed by whatever template is using this partial  %>
+
 <%= form_with model: blog_post, html: { class: "centered-form" } do |form| %>
   <% if form.object.errors.any? %>
     <div class="form-errors">
@@ -9,6 +10,17 @@
       </ul>
     </div>
   <% end %>
+  
+  <div>
+    <%= form.label :cover_image %> 
+    
+      <% if blog_post.cover_image.present? %>
+          <br>
+          <%= image_tag blog_post.cover_image %>
+      <% end %>
+
+    <%= form.file_field :cover_image %>
+  </div>
   
   <div>
     <%= form.label :title %>
